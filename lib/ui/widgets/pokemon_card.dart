@@ -21,26 +21,25 @@ class PokemonCard extends StatelessWidget {
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
               pokemon.imageUrl,
-              width: 72,
-              height: 72,
+              width: 96,
+              height: 96,
               fit: BoxFit.contain,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                pokemon.name.toUpperCase(),
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            const SizedBox(width: 12),
+            Text(
+              pokemon.name.toUpperCase(),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
-            Text('#${pokemon.id}'),
           ],
         ),
       ),
