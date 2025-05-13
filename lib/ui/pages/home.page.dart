@@ -23,12 +23,21 @@ class HomePage extends StatelessWidget {
         title: const Text('Poke App'),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: ListView.builder(
-        itemCount: controller.pokemonList.length,
-        itemBuilder: (context, index) {
-          final pokemon = controller.pokemonList[index];
-          return PokemonCard(pokemon: pokemon);
-        },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        child: GridView.builder(
+          itemCount: controller.pokemonList.length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200, // máximo ancho por tarjeta
+            childAspectRatio: 3 / 4, // alto/ancho (más vertical)
+            crossAxisSpacing: 12, // espacio entre tarjetas en el eje X
+            mainAxisSpacing: 12, // espacio entre tarjetas en el eje Y
+          ),
+          itemBuilder: (context, index) {
+            final pokemon = controller.pokemonList[index];
+            return PokemonCard(pokemon: pokemon);
+          },
+        ),
       ),
     );
   }
