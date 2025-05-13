@@ -12,11 +12,11 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(4),
         child: Row(
-          children: List.generate(40, (index) {
+          children: List.generate(20, (index) {
             final isEven = index % 2 == 0;
             return Expanded(
               child: Container(
-                height: 4,
+                height: 4, // para grosor de la barra
                 color: isEven ? Colors.blue : Colors.yellow,
               ),
             );
@@ -27,6 +27,5 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 1);
-  // 1 para grosor de la barra
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 4);
 }
