@@ -1,44 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../logic/pokemon.controller.dart';
+import '../../data/models/pokemon.model.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = context.watch<PokemonController>();
+
+    if (controller.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (controller.error != null) {
+      return Scaffold(body: Center(child: Text(controller.error!)));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Poke App'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: ListView.builder(
+        itemCount: controller.pokemonList.length,
+        itemBuilder: (context, index) {
+          final pokemon = controller.pokemonList[index];
+          return ListTile(
+            leading: Image.network(pokemon.imageUrl),
+            title: Text(pokemon.name),
+            subtitle: Text('ID: ${pokemon.id}'),
+          );
+        },
       ),
     );
   }
