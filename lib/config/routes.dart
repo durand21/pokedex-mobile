@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../ui/pages/pages.dart';
 
-final Map<String, WidgetBuilder> appRoutes = {
+final appRoutes = {
   '/home': (_) => const HomePage(),
-  // '/details': (_) => const DetailsPage(), ← otras páginas irán aquí
+  '/details': (_) => const DetailsPage(), // <- cuando esté lista
 };
