@@ -8,14 +8,25 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
-      title: Image.asset('../../../assets/images/logo.png', height: 40),
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1.0),
-        child: Divider(height: 1, thickness: 1, color: Colors.black26),
+      title: Image.asset('../../../../assets/images/logo.png', height: 40),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(4),
+        child: Row(
+          children: List.generate(40, (index) {
+            final isEven = index % 2 == 0;
+            return Expanded(
+              child: Container(
+                height: 4,
+                color: isEven ? Colors.blue : Colors.yellow,
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 1);
+  // 1 para grosor de la barra
 }

@@ -12,6 +12,7 @@ class PokeApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       routes: appRoutes,
       home: const HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
