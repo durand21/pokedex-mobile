@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/pokemon.model.dart';
+import '../../config/colors.dart';
 
 class PokemonCard extends StatelessWidget {
   final Pokemon pokemon;
@@ -8,7 +9,15 @@ class PokemonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bgColor =
+        typeColors[pokemon.types.isNotEmpty ? pokemon.types[0] : 'normal'] ??
+        Colors.grey; // default es color gris
+    final bgColorWithOpacity = bgColor.withValues(
+      alpha: (0.8 * 255).toDouble(),
+    );
+
     return Card(
+      color: bgColorWithOpacity,
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
