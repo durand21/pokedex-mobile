@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../logic/pokemon.controller.dart';
 import '../widgets/pokemon_card.dart';
+import '../widgets/poke_appbar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,10 +20,7 @@ class HomePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Poke App'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
+      appBar: const PokeAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: GridView.builder(
