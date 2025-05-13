@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../logic/pokemon.controller.dart';
-import '../../data/models/pokemon.model.dart';
+import '../widgets/pokemon_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -27,11 +27,7 @@ class HomePage extends StatelessWidget {
         itemCount: controller.pokemonList.length,
         itemBuilder: (context, index) {
           final pokemon = controller.pokemonList[index];
-          return ListTile(
-            leading: Image.network(pokemon.imageUrl),
-            title: Text(pokemon.name),
-            subtitle: Text('ID: ${pokemon.id}'),
-          );
+          return PokemonCard(pokemon: pokemon);
         },
       ),
     );
