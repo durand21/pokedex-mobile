@@ -13,9 +13,9 @@ class PokemonCard extends StatelessWidget {
     final bgColor =
         typeColors[pokemon.types.isNotEmpty ? pokemon.types[0] : 'normal'] ??
         Colors.grey;
-    var bgColorWithOpacity = bgColor.withValues(alpha: (0.81 * 255).toDouble());
+    //var bgColorWithOpacity = bgColor.withValues(alpha: (0.81 * 255).toDouble());
 
-    bgColorWithOpacity = bgColor;
+    var bgColorWithOpacity = bgColor;
 
     return GestureDetector(
       onTap: () {
