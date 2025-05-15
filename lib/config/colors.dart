@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 
 const Map<String, Color> typeColors = {
+  'normal': Colors.grey,
   'fire': Colors.red,
   'water': Colors.blue,
-  'grass': Colors.green,
   'electric': Colors.yellow,
-  'bug': Colors.lightGreen,
-  'normal': Colors.grey,
+  'grass': Colors.green,
+  'ice': Colors.cyan,
+  'fighting': Colors.orange,
   'poison': Colors.purple,
   'ground': Colors.brown,
-  'fairy': Colors.pink,
-  'fighting': Colors.orange,
+  'flying': Colors.lightBlue,
   'psychic': Colors.deepPurple,
+  'bug': Colors.lightGreen,
   'rock': Colors.brown,
   'ghost': Colors.indigo,
   'dragon': Colors.indigoAccent,
-  // Agrega más según necesites
+  'dark': Colors.black87,
+  'steel': Colors.blueGrey,
+  'fairy': Colors.pink
 };
