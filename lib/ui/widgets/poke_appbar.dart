@@ -8,7 +8,7 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
-      title: Image.asset('../../../../assets/images/logo.png', height: 40),
+      title: Image.asset('assets/images/logo.png', height: 40),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(4),
         child: Row(

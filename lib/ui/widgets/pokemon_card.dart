@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/models/pokemon.model.dart';
 import '../../config/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PokemonCard extends StatelessWidget {
   final Pokemon pokemon;
@@ -12,29 +13,32 @@ class PokemonCard extends StatelessWidget {
     final bgColor =
         typeColors[pokemon.types.isNotEmpty ? pokemon.types[0] : 'normal'] ??
         Colors.grey;
-    final bgColorWithOpacity = bgColor.withValues(
-      alpha: (0.81 * 255).toDouble(),
-    );
+    var bgColorWithOpacity = bgColor.withValues(alpha: (0.81 * 255).toDouble());
+
+    bgColorWithOpacity = bgColor;
 
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/details', arguments: pokemon);
       },
       child: Card(
-        color: bgColorWithOpacity,
         elevation: 4,
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Padding(
+        child: Container(
+          decoration: BoxDecoration(
+            color: bgColorWithOpacity,
+            borderRadius: BorderRadius.circular(12),
+          ),
           padding: const EdgeInsets.all(12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.network(
-                pokemon.imageUrl,
-                width: 96,
-                height: 96,
-                fit: BoxFit.contain,
+              CachedNetworkImage(
+                imageUrl: pokemon.imageUrl,
+                placeholder:
+                    (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               const SizedBox(height: 12),
               Text(
