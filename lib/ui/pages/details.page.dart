@@ -3,6 +3,8 @@ import '../../data/models/pokemon.model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../config/colors.dart';
 import '../../data/services/evoluciones.service.dart';
+import '../widgets/poke_appbar.dart';
+import '../widgets/pokemon_card.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({super.key});
@@ -18,10 +20,7 @@ class DetailsPage extends StatelessWidget {
     final esPantallaAncha = MediaQuery.of(context).size.width > 800;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: baseColor,
-        title: Text(pokemon.name.toUpperCase()),
-      ),
+      appBar: const PokeAppBar(),
       body: FutureBuilder<List<String>>(
         future: ServicioEvolucion().obtenerEvoluciones(pokemon.id),
         builder: (context, snapshot) {
@@ -64,16 +63,7 @@ class DetailsPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: CachedNetworkImage(
-                  imageUrl: pokemon.imageUrl,
-                  width: 160,
-                  height: 160,
-                  placeholder:
-                      (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              ),
+              Center(child: PokemonCard(pokemon: pokemon, navegable: false)),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 8,
