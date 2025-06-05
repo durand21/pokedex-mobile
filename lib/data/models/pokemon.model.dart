@@ -10,7 +10,16 @@ class Pokemon {
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(name: json['name'], url: json['url']);
+    if (json.containsKey('url')) {
+      // Formato de lista
+      return Pokemon(name: json['name'], url: json['url']);
+    } else {
+      // Formato detallado /pokemon/:id
+      return Pokemon(
+        name: json['name'],
+        url: 'https://pokeapi.co/api/v2/pokemon/${json['id']}/',
+      );
+    }
   }
 
   int get id {

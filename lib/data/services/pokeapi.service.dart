@@ -41,4 +41,25 @@ class PokeApiService {
       return [];
     }
   }
+
+  Future<List<Pokemon>> fetchPokemonPorNombre(List<String> nombres) async {
+    final List<Pokemon> lista = [];
+
+    for (final nombre in nombres) {
+      final url = Uri.parse('$baseUrl/pokemon/$nombre');
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final pokemon = Pokemon.fromJson(data);
+        final types =
+            (data['types'] as List)
+                .map<String>((t) => t['type']['name'].toString())
+                .toList();
+        lista.add(pokemon.copyWithTypes(types));
+      }
+    }
+
+    return lista;
+  }
 }
