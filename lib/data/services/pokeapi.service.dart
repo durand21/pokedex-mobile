@@ -6,7 +6,7 @@ class PokeApiService {
   static const String baseUrl = 'https://pokeapi.co/api/v2';
 
   Future<List<Pokemon>> fetchPokemonList({
-    int limit = 20,
+    int limit = 52,
     int offset = 0,
   }) async {
     final url = Uri.parse('$baseUrl/pokemon?limit=$limit&offset=$offset');
