@@ -2,11 +2,13 @@ class Pokemon {
   final String name;
   final String url;
   final List<String> types;
+  final List<Map<String, dynamic>> stats;
 
   const Pokemon({
     required this.name,
     required this.url,
     this.types = const [], // por defecto vacío
+    this.stats = const [], // por defecto vacío
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
@@ -14,10 +16,15 @@ class Pokemon {
       // Formato de lista
       return Pokemon(name: json['name'], url: json['url']);
     } else {
+      final statsList =
+          (json['stats'] as List).map<Map<String, dynamic>>((s) {
+            return {'name': s['stat']['name'], 'value': s['base_stat']};
+          }).toList();
       // Formato detallado /pokemon/:id
       return Pokemon(
         name: json['name'],
         url: 'https://pokeapi.co/api/v2/pokemon/${json['id']}/',
+        stats: statsList,
       );
     }
   }
@@ -32,6 +39,6 @@ class Pokemon {
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png';
 
   Pokemon copyWithTypes(List<String> types) {
-    return Pokemon(name: name, url: url, types: types);
+    return Pokemon(name: name, url: url, types: types, stats: stats);
   }
 }

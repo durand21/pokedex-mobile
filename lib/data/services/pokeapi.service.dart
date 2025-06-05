@@ -56,7 +56,14 @@ class PokeApiService {
             (data['types'] as List)
                 .map<String>((t) => t['type']['name'].toString())
                 .toList();
-        lista.add(pokemon.copyWithTypes(types));
+        lista.add(
+          Pokemon(
+            name: pokemon.name,
+            url: pokemon.url,
+            types: types,
+            stats: pokemon.stats,
+          ),
+        );
       }
     }
 
