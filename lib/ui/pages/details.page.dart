@@ -5,7 +5,6 @@ import '../../data/services/evoluciones.service.dart';
 import '../../data/services/pokeapi.service.dart';
 import '../widgets/pokemon_card.dart';
 import '../widgets/shimmer_card.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DetalleModal extends StatelessWidget {
   final Pokemon pokemon;
