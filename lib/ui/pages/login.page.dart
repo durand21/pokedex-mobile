@@ -7,7 +7,12 @@ class LoginPage extends StatelessWidget {
 
   Future<void> iniciarSesionConGoogle(BuildContext contexto) async {
     try {
-      final cuentaGoogle = await GoogleSignIn().signIn();
+      final cuentaGoogle =
+          await GoogleSignIn(
+            clientId:
+                '572556484221-l6iusl16h1r54ob2ns0h9gsb9hdlpmsh.apps.googleusercontent.com',
+          ).signIn();
+
       if (cuentaGoogle == null)
         return; // El usuario canceló el inicio de sesión
       // Obtiene el token de autenticación de Google
