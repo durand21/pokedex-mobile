@@ -5,6 +5,8 @@ import '../../data/services/evoluciones.service.dart';
 import '../../data/services/pokeapi.service.dart';
 import '../widgets/poke_appbar.dart';
 import '../widgets/pokemon_card.dart';
+import '../widgets/shimmer_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({super.key});
@@ -48,7 +50,13 @@ class DetailsPage extends StatelessWidget {
               builder: (context, snapshot) {
                 final widgetEvoluciones =
                     snapshot.connectionState == ConnectionState.waiting
-                        ? const CircularProgressIndicator()
+                        ? Wrap(
+                          spacing: 12,
+                          children: List.generate(
+                            3,
+                            (_) => const ShimmerCard(),
+                          ),
+                        )
                         : snapshot.hasError
                         ? Text(snapshot.toString())
                         : Wrap(
@@ -97,28 +105,59 @@ class DetailsPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 12),
-                    ...pokemon.stats.map(
-                      (stat) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: Text(stat['name'].toUpperCase()),
-                            ),
-                            Expanded(
-                              child: LinearProgressIndicator(
-                                value: (stat['value'] as int) / 150.0,
-                                color: baseColor,
-                                backgroundColor: baseColor.withOpacity(0.2),
+                    pokemon.stats.isEmpty
+                        ? Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.white,
+                          child: Column(
+                            children: List.generate(
+                              6,
+                              (index) => Container(
+                                width: double.infinity,
+                                height: 20,
+                                margin: const EdgeInsets.symmetric(vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Text(stat['value'].toString()),
-                          ],
+                          ),
+                        )
+                        : Column(
+                          children:
+                              pokemon.stats
+                                  .map(
+                                    (stat) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: Text(
+                                              stat['name'].toUpperCase(),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: LinearProgressIndicator(
+                                              value:
+                                                  (stat['value'] as int) /
+                                                  150.0,
+                                              color: baseColor,
+                                              backgroundColor: baseColor
+                                                  .withOpacity(0.2),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(stat['value'].toString()),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                         ),
-                      ),
-                    ),
                   ],
                 );
 
