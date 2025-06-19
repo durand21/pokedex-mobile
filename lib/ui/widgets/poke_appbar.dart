@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PokeAppBar({super.key});
+
+  void _cerrarSesion(BuildContext context) async {
+    await GoogleSignIn().signOut();
+    // Redirigir a login y borrar historial
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,6 +16,13 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
       title: Image.asset('assets/images/logo.png', height: 40),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.logout, color: Colors.redAccent),
+          tooltip: 'Cerrar sesión',
+          onPressed: () => _cerrarSesion(context),
+        ),
+      ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(4),
         child: Row(
