@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'config/config.dart';
-import 'ui/pages/home.page.dart';
+//import 'ui/pages/home.page.dart';
+import 'ui/pages/login.page.dart';
 
 class PokeApp extends StatelessWidget {
   const PokeApp({super.key});
@@ -11,7 +12,7 @@ class PokeApp extends StatelessWidget {
       title: 'Poke App',
       theme: AppTheme.lightTheme,
       routes: appRoutes,
-      home: const HomePage(),
+      home: const LoginPage(), //const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

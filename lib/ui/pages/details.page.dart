@@ -18,14 +18,14 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final argumento = ModalRoute.of(context)!.settings.arguments as Pokemon;
+    final _pokemon = ModalRoute.of(context)!.settings.arguments as Pokemon;
     final esPantallaAncha = MediaQuery.of(context).size.width > 800;
 
     return Scaffold(
       appBar: const PokeAppBar(),
       body: FutureBuilder<Pokemon>(
         future: PokeApiService()
-            .fetchPokemonPorNombre([argumento.name])
+            .fetchPokemonPorNombre([_pokemon.name])
             .then((list) => list.first),
         builder: (context, snapshotPokemon) {
           if (snapshotPokemon.connectionState == ConnectionState.waiting) {
@@ -57,7 +57,7 @@ class DetailsPage extends StatelessWidget {
                               snapshot.data!.map((evo) {
                                 return PokemonCard(
                                   pokemon: evo,
-                                  navegable: false,
+                                  navegable: true,
                                 );
                               }).toList(),
                         );
