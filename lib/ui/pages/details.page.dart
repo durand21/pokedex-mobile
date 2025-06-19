@@ -220,7 +220,9 @@ class DetalleModal extends StatelessWidget {
       insetPadding: const EdgeInsets.all(16),
       backgroundColor: Colors.transparent,
       child: Container(
-        constraints: const BoxConstraints(maxHeight: 650),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+        ),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -236,8 +238,18 @@ class DetalleModal extends StatelessWidget {
             final baseColor = typeColors[poke.types[0]] ?? Colors.grey;
 
             final imagenYTipos = Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                PokemonCard(pokemon: poke, navegable: false),
+                Align(
+                  alignment: Alignment.center,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 160,
+                      maxWidth: 220,
+                    ),
+                    child: PokemonCard(pokemon: poke, navegable: false),
+                  ),
+                ),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
@@ -297,24 +309,31 @@ class DetalleModal extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 12,
-                      children:
-                          snapEvo.data!.map((evo) {
-                            return GestureDetector(
-                              onTap: () async {
-                                Navigator.of(context).pop();
-                                await Future.delayed(
-                                  const Duration(milliseconds: 200),
-                                );
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => DetalleModal(pokemon: evo),
-                                );
-                              },
-                              child: PokemonCard(pokemon: evo),
-                            );
-                          }).toList(),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        spacing: 12,
+                        children:
+                            snapEvo.data!.map((evo) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  Navigator.of(context).pop();
+                                  await Future.delayed(
+                                    const Duration(milliseconds: 100),
+                                  );
+                                  if (context.mounted) {
+                                    showDialog(
+                                      context: context,
+                                      builder:
+                                          (_) => DetalleModal(pokemon: evo),
+                                    );
+                                  }
+                                },
+                                child: PokemonCard(pokemon: evo),
+                              );
+                            }).toList(),
+                      ),
                     ),
                   ],
                 );
@@ -334,7 +353,9 @@ class DetalleModal extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 600),
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
                       child:
                           esAncho
                               ? Column(

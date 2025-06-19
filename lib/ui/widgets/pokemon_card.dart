@@ -21,7 +21,9 @@ class PokemonCard extends StatelessWidget {
 
     // Contenido de la card
     final contenido = Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+      margin: const EdgeInsets.all(
+        4,
+      ), // const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
       decoration: BoxDecoration(
         color: baseColor, // fondo sólido por tipo
         borderRadius: BorderRadius.circular(16),
@@ -71,7 +73,7 @@ class PokemonCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+
             Text(
               pokemon.name.toUpperCase(),
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
