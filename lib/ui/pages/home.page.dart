@@ -4,18 +4,47 @@ import '../../logic/pokemon.controller.dart';
 import '../widgets/pokemon_card.dart';
 import '../widgets/poke_appbar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final controller = context.read<PokemonController>();
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        !controller.isFetchingMore) {
+      controller.cargarMasPokemon();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<PokemonController>();
 
-    if (controller.isLoading) {
+    if (controller.isLoading && controller.pokemonList.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    if (controller.error != null) {
+    if (controller.error != null && controller.pokemonList.isEmpty) {
       return Scaffold(body: Center(child: Text(controller.error!)));
     }
 
@@ -23,18 +52,30 @@ class HomePage extends StatelessWidget {
       appBar: const PokeAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: GridView.builder(
-          itemCount: controller.pokemonList.length,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200, // máximo ancho por tarjeta
-            childAspectRatio: 3 / 4, // alto/ancho (más vertical)
-            crossAxisSpacing: 12, // espacio entre tarjetas en el eje X
-            mainAxisSpacing: 12, // espacio entre tarjetas en el eje Y
-          ),
-          itemBuilder: (context, index) {
-            final pokemon = controller.pokemonList[index];
-            return PokemonCard(pokemon: pokemon);
-          },
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                controller: _scrollController,
+                itemCount: controller.pokemonList.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemBuilder: (context, index) {
+                  final pokemon = controller.pokemonList[index];
+                  return PokemonCard(pokemon: pokemon);
+                },
+              ),
+            ),
+            if (controller.isFetchingMore)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: CircularProgressIndicator(),
+              ),
+          ],
         ),
       ),
     );
