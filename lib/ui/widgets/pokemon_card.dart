@@ -1,3 +1,4 @@
+import 'package:app_test/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/pokemon.model.dart';
 import '../../config/colors.dart';
@@ -18,10 +19,7 @@ class PokemonCard extends StatelessWidget {
       baseColor,
     );
 
-    //return GestureDetector(
-    //  onTap: () {
-    //    Navigator.pushNamed(context, '/details', arguments: pokemon);
-    //  },
+    // Contenido de la card
     final contenido = Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
       decoration: BoxDecoration(
@@ -90,7 +88,18 @@ class PokemonCard extends StatelessWidget {
     return navegable
         ? GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/details', arguments: pokemon);
+            // Navegar a la pantalla de detalles del Pokémon
+            showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder:
+                  (_) => Dialog(
+                    insetPadding: const EdgeInsets.all(16),
+                    backgroundColor: Colors.transparent,
+                    child: DetalleModal(pokemon: pokemon),
+                  ),
+            );
+            //Navigator.pushNamed(context, '/details', arguments: pokemon);
           },
           child: contenido,
         )
