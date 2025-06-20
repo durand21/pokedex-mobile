@@ -4,6 +4,7 @@ import '../../logic/pokemon.controller.dart';
 import '../widgets/pokemon_card.dart';
 import '../widgets/poke_appbar.dart';
 import '../widgets/app_drawer.dart';
+import './Busqueda.page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late ScrollController _scrollController;
+  final TextEditingController _busquedaController = TextEditingController();
 
   @override
   void initState() {
@@ -28,6 +30,19 @@ class _HomePageState extends State<HomePage> {
             _scrollController.position.maxScrollExtent - 200 &&
         !controller.isFetchingMore) {
       controller.cargarMasPokemon();
+    }
+  }
+
+  void _verificarBusqueda(String texto) {
+    final txt_limpio = texto.trim();
+    if (txt_limpio.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => BusquedaPage(textoBusqueda: txt_limpio),
+        ),
+      );
+      _busquedaController.clear();
     }
   }
 
@@ -56,6 +71,15 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: Column(
           children: [
+            TextField(
+              controller: _busquedaController,
+              decoration: const InputDecoration(
+                hintText: 'Buscar Pokémon...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+              onSubmitted: _verificarBusqueda,
+            ),
             Expanded(
               child: GridView.builder(
                 controller: _scrollController,
