@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../data/models/pokemon.model.dart';
 import '../widgets/pokemon_card.dart';
 import '../widgets/app_drawer.dart';
-import '../../data/services/favs.service.dart'; // importa tu servicio
+import '../../data/services/favs.service.dart';
+import '../widgets/poke_appbar.dart';
 
 class PaginaFavoritos extends StatelessWidget {
   const PaginaFavoritos({super.key});
@@ -10,12 +11,10 @@ class PaginaFavoritos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favoritos')),
+      appBar: const PokeAppBar(),
       drawer: const AppDrawer(),
       body: FutureBuilder<List<Pokemon>>(
-        future:
-            ServicioFavoritos()
-                .obtenerFavoritos(), // <--- aquí usas tu servicio
+        future: ServicioFavoritos().obtenerFavoritos(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

@@ -21,4 +21,24 @@ class ServicioFavoritos {
       );
     }).toList();
   }
+
+  Future<bool> estaEnFavoritos(String nombre) async {
+    final doc = await favoritosRef.doc(nombre).get();
+    return doc.exists;
+  }
+
+  Future<void> alternarFavorito(Pokemon pokemon) async {
+    final ref = favoritosRef.doc(pokemon.name);
+    final existe = await ref.get();
+    if (existe.exists) {
+      await ref.delete(); // quitar de favoritos
+    } else {
+      await ref.set({
+        'name': pokemon.name,
+        'url': pokemon.url,
+        'types': pokemon.types,
+        'stats': pokemon.stats,
+      }); // agregar a favoritos
+    }
+  }
 }

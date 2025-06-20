@@ -5,6 +5,7 @@ import '../../data/services/evoluciones.service.dart';
 import '../../data/services/pokeapi.service.dart';
 import '../widgets/pokemon_card.dart';
 import '../widgets/shimmer_card.dart';
+import '../../data/services/favs.service.dart';
 
 class DetalleModal extends StatelessWidget {
   final Pokemon pokemon;
@@ -202,6 +203,32 @@ class DetalleModal extends StatelessWidget {
                                 ],
                               ),
                     ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 20,
+                  child: FutureBuilder<bool>(
+                    future: ServicioFavoritos().estaEnFavoritos(poke.name),
+                    builder: (context, snapshot) {
+                      final enFavoritos = snapshot.data ?? false;
+                      return FloatingActionButton(
+                        backgroundColor: enFavoritos ? Colors.red : Colors.grey,
+                        tooltip:
+                            enFavoritos
+                                ? 'Quitar de favoritos'
+                                : 'Agregar a favoritos',
+                        onPressed: () async {
+                          await ServicioFavoritos().alternarFavorito(poke);
+                          (context as Element)
+                              .markNeedsBuild(); // Forzar rebuild
+                        },
+                        child: Icon(
+                          enFavoritos ? Icons.favorite : Icons.favorite_border,
+                          color: Colors.white,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
