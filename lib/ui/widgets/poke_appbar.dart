@@ -15,6 +15,14 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
+      leading: Builder(
+        builder:
+            (context) => IconButton(
+              icon: const Icon(Icons.menu, color: Colors.black87),
+              tooltip: 'Abrir menú',
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+      ),
       title: Image.asset('assets/images/logo.png', height: 40),
       actions: [
         IconButton(

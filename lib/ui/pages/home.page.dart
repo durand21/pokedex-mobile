@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../logic/pokemon.controller.dart';
 import '../widgets/pokemon_card.dart';
 import '../widgets/poke_appbar.dart';
+import '../widgets/app_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: const PokeAppBar(),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: Column(
