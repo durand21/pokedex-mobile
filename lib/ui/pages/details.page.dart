@@ -7,14 +7,35 @@ import '../widgets/pokemon_card.dart';
 import '../widgets/shimmer_card.dart';
 import '../../data/services/favs.service.dart';
 
-class DetalleModal extends StatelessWidget {
+class DetalleModal extends StatefulWidget {
   final Pokemon pokemon;
   const DetalleModal({super.key, required this.pokemon});
 
   @override
+  State<DetalleModal> createState() => _DetalleModalState();
+}
+
+class _DetalleModalState extends State<DetalleModal> {
+  late Future<bool> _enFavoritosFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _enFavoritosFuture = ServicioFavoritos().estaEnFavoritos(
+      widget.pokemon.name,
+    );
+  }
+
+  void _alternarFavorito(Pokemon poke) async {
+    await ServicioFavoritos().alternarFavorito(poke);
+    setState(() {
+      _enFavoritosFuture = ServicioFavoritos().estaEnFavoritos(poke.name);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final esAncho = MediaQuery.of(context).size.width > 800;
-
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
       backgroundColor: Colors.transparent,
@@ -28,7 +49,7 @@ class DetalleModal extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
         ),
         child: FutureBuilder<Pokemon>(
-          future: obtenerPokemon(pokemon.name),
+          future: obtenerPokemon(widget.pokemon.name),
           builder: (context, snap) {
             if (!snap.hasData) {
               return const Center(child: CircularProgressIndicator());
@@ -209,20 +230,19 @@ class DetalleModal extends StatelessWidget {
                   bottom: 20,
                   right: 20,
                   child: FutureBuilder<bool>(
-                    future: ServicioFavoritos().estaEnFavoritos(poke.name),
+                    future: _enFavoritosFuture,
                     builder: (context, snapshot) {
                       final enFavoritos = snapshot.data ?? false;
                       return FloatingActionButton(
-                        backgroundColor: enFavoritos ? Colors.red : Colors.grey,
+                        backgroundColor:
+                            enFavoritos
+                                ? const Color.fromARGB(255, 252, 18, 2)
+                                : Colors.grey,
                         tooltip:
                             enFavoritos
                                 ? 'Quitar de favoritos'
                                 : 'Agregar a favoritos',
-                        onPressed: () async {
-                          await ServicioFavoritos().alternarFavorito(poke);
-                          (context as Element)
-                              .markNeedsBuild(); // Forzar rebuild
-                        },
+                        onPressed: () => _alternarFavorito(poke),
                         child: Icon(
                           enFavoritos ? Icons.favorite : Icons.favorite_border,
                           color: Colors.white,
