@@ -4,6 +4,7 @@ import '../widgets/pokemon_card.dart';
 import '../widgets/app_drawer.dart';
 import '../../data/services/favs.service.dart';
 import '../widgets/poke_appbar.dart';
+import '../widgets/shimmer_card.dart';
 
 class PaginaFavoritos extends StatelessWidget {
   const PaginaFavoritos({super.key});
@@ -17,7 +18,17 @@ class PaginaFavoritos extends StatelessWidget {
         future: ServicioFavoritos().obtenerFavoritos(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return GridView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: 6,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 3 / 4,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              itemBuilder: (context, index) => const ShimmerCard(),
+            );
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
