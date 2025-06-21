@@ -5,25 +5,19 @@ import './home.page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
-
-  Future<void> iniciarSesionConGoogle(BuildContext context) async {
+  Future<void> _iniciarSesionGoogle(BuildContext context) async {
     try {
-      final cuentaGoogle = await GoogleSignIn().signIn();
-      if (cuentaGoogle == null) return; // usuario canceló
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return;
 
-      final autenticacion = await cuentaGoogle.authentication;
-      final credencial = GoogleAuthProvider.credential(
-        accessToken: autenticacion.accessToken,
-        idToken: autenticacion.idToken,
+      final googleAuth = await googleUser.authentication;
+      final cred = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credencial);
-
-      // Navega al Home si fue exitoso
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const HomePage()),
-        (route) => false,
-      );
+      await FirebaseAuth.instance.signInWithCredential(cred);
+      //Navigator.of(context).pop();
     } catch (e) {
       print("Error al iniciar sesión con Google: $e");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -34,12 +28,38 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
+      backgroundColor: Colors.yellow[100],
       body: Center(
-        child: ElevatedButton.icon(
-          icon: const Icon(Icons.login),
-          label: const Text("Iniciar sesión con Google"),
-          onPressed: () => iniciarSesionConGoogle(context),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/logo.png', height: 120),
+              const SizedBox(height: 24),
+              const Text(
+                'Bienvenido a Pokédex',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.login),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  foregroundColor: Colors.white,
+                  minimumSize: Size(size.width * 0.6, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () => _iniciarSesionGoogle(context),
+                label: const Text('Iniciar sesión con Google'),
+              ),
+            ],
+          ),
         ),
       ),
     );

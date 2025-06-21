@@ -15,8 +15,15 @@ void main() async {
     await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
   }
 
-  final controlador = PokemonController();
-  await controlador.loadPokemon();
+  //final controlador = PokemonController();
+  //await controlador.loadPokemon();
 
-  runApp(ChangeNotifierProvider(create: (_) => controlador, child: PokeApp()));
+  runApp(
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => PokemonController())
+          ],
+          child: const PokeApp(),
+      ),
+  );
 }

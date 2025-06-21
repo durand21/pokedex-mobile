@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PokeAppBar({super.key});
 
   void _cerrarSesion(BuildContext context) async {
+    await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
-    // Redirigir a login y borrar historial
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
+    //Navigator.pushNamedAndRemoveUntil(context, '/splash', (route) => false);
   }
 
   @override

@@ -39,7 +39,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                '/favoritos',
+                '/favs',
                 (_) => false,
               );
             },

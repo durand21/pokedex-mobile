@@ -2,10 +2,14 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../data/models/pokemon.model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ServicioFavoritos {
-  final CollectionReference favoritosRef = FirebaseFirestore.instance
-      .collection('favoritos');
+  CollectionReference get favoritosRef {
+    final usuario = FirebaseAuth.instance.currentUser;
+    final uid = usuario?.uid ?? 'anonimo';
+    return FirebaseFirestore.instance.collection('favoritos_$uid');
+  }
 
   Future<List<Pokemon>> obtenerFavoritos() async {
     final snapshot = await favoritosRef.get();

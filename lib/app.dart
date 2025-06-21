@@ -1,3 +1,4 @@
+import 'package:app_test/ui/pages/splash.page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'config/config.dart';
@@ -12,6 +13,7 @@ class PokeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Poke App',
       theme: AppTheme.lightTheme,
+
       routes: appRoutes /*{
         '/home': (_) => const HomePage(),
         '/login': (_) => const LoginPage(),
@@ -21,9 +23,7 @@ class PokeApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
+            return const SplashPage();
           }
           return snapshot.hasData ? const HomePage() : const LoginPage();
         },

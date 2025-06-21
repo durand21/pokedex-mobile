@@ -20,6 +20,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    final controlador = context.read<PokemonController>();
+    if (controlador.pokemonList.isEmpty) {
+      controlador.loadPokemon(); // solo si aún no se ha cargado
+    }
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
   }
