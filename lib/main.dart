@@ -16,7 +16,7 @@ void main() async {
   }
 
   final controlador = PokemonController();
-  await controlador.loadPokemon(); // si este es async, hacelo bien
+  await controlador.loadPokemon();
 
   runApp(ChangeNotifierProvider(create: (_) => controlador, child: PokeApp()));
 }
